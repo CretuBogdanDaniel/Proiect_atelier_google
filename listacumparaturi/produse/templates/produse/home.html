@@ -1,0 +1,39 @@
+{% extends 'produse/base.html' %}
+{% block content %}
+    <h2>Introdu produsele</h2>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PRODUS</th>
+                <th>STARE</th>
+                <th>ELIMINA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if products %}
+                {% for product in products %}
+                    {% if product.cumparat %}
+                        <tr class="table-success">
+                            <td class="linethrough">{{ product.product }}</td>
+                            <td><a class="fw-bold" style="text-decoration: none;" href="{% url 'change_status' product.id %}">Renunta</a></td>
+                            <td><a class="fw-bold" style="text-decoration: none;" href="{% url 'delete' product.id %}">Delete</a></td>
+                        </tr>
+                    {% else %}
+                        <tr class="table-secondary">
+                            <td>{{ product.product }}</td>
+                            <td><a class="fw-bold" style="text-decoration: none;" href="{% url 'change_status' product.id %}">Cumpara</a></td>
+                            <td><a class="fw-bold" style="text-decoration: none;" href="{% url 'delete' product.id %}">Sterge</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+
+      <button  type="submit" class="text-white btn btn-success">adauga</button>
+    </form>
+{% endblock %}
